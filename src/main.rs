@@ -22,23 +22,19 @@ fn main() {
             Err(_) => continue,
         };
 
-        let mut temp: u32;
+        let mut temp = String::new();
 
-        loop {
-            println!("Enter the temperature you want to convert to {unit}");
+        println!("Enter the temperature you want to convert to {unit}");
 
-            let mut input = String::new();
-            io::stdin()
-                .read_line(&mut input)
-                .expect("Failed to real line");
-    
-            let input:u32 = match input.trim().parse(){
-                Ok(num) => num,
-                Err(_) => continue,
-            };
-            temp = input;
-            break;
-        }
+        io::stdin()
+            .read_line(&mut temp)
+            .expect("Failed to real line");
+
+        let temp:u32 = match temp.trim().parse(){
+            Ok(num) => num,
+            Err(_) => continue,
+        };
+
 
         println!("You entered {temp}°{unit}.");
 
