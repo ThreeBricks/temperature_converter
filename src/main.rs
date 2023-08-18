@@ -8,29 +8,58 @@ fn main() {
     //Celsius (°C) = (Temperature in degrees Fahrenheit (°F) - 32) * 5/9
 
     loop {
-        println!("Please input the temperature in Fahrenheit you would like to convert to Celsius.");
-        
-        //mutable variable to collect the user's input
-        let mut temperature_fahrenheit = String::new();
+
+        let mut unit = String::new();
+
+        println!("Do you want to convert from Fahrenheit (F) or Celsius(C)?");
 
         io::stdin()
-            .read_line(&mut temperature_fahrenheit)
+            .read_line(&mut unit)
             .expect("Failed to read line");
 
-        let temperature_fahrenheit:u32 = match temperature_fahrenheit.trim().parse(){
-            Ok(num) => num,
+        let unit:char = match unit.trim().parse(){
+            Ok(letter) => letter,
             Err(_) => continue,
         };
 
-        println!("You entered {temperature_fahrenheit}°F.");
+        let mut temp: u32;
 
-        let temperature_fahrenheit = (temperature_fahrenheit-32) * 5/9;
+        loop {
+            println!("Enter the temperature you want to convert to {unit}");
 
-        println!("That is about {temperature_fahrenheit}°C");
+            let mut input = String::new();
+            io::stdin()
+                .read_line(&mut input)
+                .expect("Failed to real line");
+    
+            let input:u32 = match input.trim().parse(){
+                Ok(num) => num,
+                Err(_) => continue,
+            };
+            temp = input;
+            break;
+        }
+
+        println!("You entered {temp}°{unit}.");
+
+        if unit=='F' {
+            let temp = convert_to_celsius(temp);
+            println!("That is about {temp}°C");
+        } else {
+            let temp = convert_to_fahrenheit(temp);
+            println!("That is about {temp}°F");
+        }
+
         println!("Thank you and have a good one.");
         break;
     }
+}
 
 
+fn convert_to_celsius(temp: u32) -> u32{
+    (temp-32) * 5/9
+}
 
+fn convert_to_fahrenheit(temp: u32) -> u32{
+    (temp*9/5) + 32
 }
